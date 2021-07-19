@@ -1,0 +1,11 @@
+# cahce
+__pycache__
+
+# data
+*.csv
+*.mkv
+
+# test
+workspace/
+playground.py
+testground.py

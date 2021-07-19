@@ -1,0 +1,33 @@
+{
+    "csv":{
+        "item_list":["a", "ha", "va", "s", "hv", "vv", "hp", "vp"],
+        "offspring":{
+            "a": 0,
+            "ha": 0,
+            "va": 0,
+            "s": 2,
+            "hv": 2,
+            "vv": 2,
+            "hp": 4,
+            "vp": 4
+        }
+    },
+    
+    "analysis":{
+        "outlier":{
+            "v_mean":{
+                "max":7,
+                "min":2
+            },
+            "d_mean_p":{
+                "max":95,
+                "min":60
+            },
+            "d_mean_n":{
+                "max":-80,
+                "min":-110
+            }
+        }
+    }
+        
+}
