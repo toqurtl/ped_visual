@@ -1,5 +1,6 @@
 from ped import utils
 from pandas import Series
+import numpy as np
 
 class Person(object):
     def __init__(self, scene, person_idx):
@@ -49,6 +50,7 @@ class Person(object):
         r_data, di_data = utils.cart2pol_theta(h_data, v_data)        
         return di_data   
 
+    # statistics
     def exist_time_range(self):        
         return utils.detected_time_range(
                 data=self.scene_data_map["hp"],
@@ -73,3 +75,20 @@ class Person(object):
         }
         return des_dict
     
+    # behavior
+    def position_at_idx(self, idx):
+        return self.position()[idx]
+
+    def position(self):
+        np_h = self.position_h_data.to_numpy()
+        np_v = self.position_v_data.to_numpy()
+        np_h = np.expand_dims(np_h, axis=1)
+        np_v = np.expand_dims(np_v, axis=1)
+        return np.append(np_h, np_v, axis=1)
+        
+
+    def is_hallway(self):
+        pass
+    
+    def is_unit(self):
+        pass

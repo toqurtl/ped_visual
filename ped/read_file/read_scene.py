@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from ped.read_file import read_csv
 
-# for scene
+# person info of scene
 def data_file_path_map(folder_path: str):
     file_list = os.listdir(folder_path)
 
@@ -51,3 +51,10 @@ def appear_time_info(folder_path):
     position_df = data_map(folder_path)["hp"]
     position_df[position_df.columns[1]]
     return
+
+# scene_characteristics
+def num_person(folder_path):
+    pass
+
+def opossite(folder_path):
+    pass

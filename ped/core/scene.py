@@ -1,5 +1,6 @@
 from ped.read_file import read_scene, read_csv
 from ped.core.person import Person
+import numpy as np
 
 class Scene(object):
     def __init__(self, folder_path): 
@@ -49,6 +50,12 @@ class Scene(object):
     @property
     def position_h_data(self):
         return self.data_map["hp"]
-   
-    def distance_of(p1: Person, p2: Person, idx):
+
+    def common_idx(self, p1: Person, p2: Person):
         pass
+
+    def distance_of(self, p1: Person, p2: Person, idx: int):
+        p1_pos = p1.position_at_idx(idx)
+        p2_pos = p2.position_at_idx(idx)
+        return np.linalg.norm(p1_pos-p2_pos)
+

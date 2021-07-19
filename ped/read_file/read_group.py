@@ -12,5 +12,10 @@ def available_scene_list(group_folder_path):
             check_2 = check_folder.check_time_unit(folder_path)
             if check_2:
                 available_list.append(folder_path)                
-    return available_list            
-    
+    return available_list
+
+def scene_list_with_num_person(group_folder_path):
+    pass
+
+def opossite_scene_list_opposite(group_folder_path):
+    pass
