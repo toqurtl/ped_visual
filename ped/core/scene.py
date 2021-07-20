@@ -51,8 +51,10 @@ class Scene(object):
     def position_h_data(self):
         return self.data_map["hp"]
 
-    def common_idx(self, p1: Person, p2: Person):
-        pass
+    def common_idx_list(self, p1: Person, p2: Person):
+        p1_range = p1.exist_time_range()["idx"]
+        p2_range = p2.exist_time_range()["idx"]
+        return list(set(p1_range) & set(p2_range))
 
     def distance_of(self, p1: Person, p2: Person, idx: int):
         p1_pos = p1.position_at_idx(idx)

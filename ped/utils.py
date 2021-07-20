@@ -18,11 +18,11 @@ def pol2cart(rho, phi):
 
 def detected_time_range(data: DataFrame, time_str: str, column_str: str):    
     data = data[[time_str, column_str]]
-    nan_idx_list = []
-    nan_time_list = []
+    idx_list = []
+    time_list = []
     for idx, row in data.iterrows():
-        if np.isnan(row[column_str]):
-            nan_idx_list.append(idx)
-            nan_time_list.append(row[time_str])
+        if not np.isnan(row[column_str]):
+            idx_list.append(idx)
+            time_list.append(row[time_str])
         
-    return nan_time_list, nan_idx_list
+    return {"time": time_list, "idx": idx_list}
