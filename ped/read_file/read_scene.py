@@ -35,7 +35,7 @@ def person_index_list(folder_path: str):
     file_path_map = data_file_path_map(folder_path)
     file_path = file_path_map["a"]
     data = pd.read_csv(file_path)
-    return read_csv.person_idx_list(data)
+    return data.columns[1:]
 
 def time_idx(folder_path: str):
     file_path_map = data_file_path_map(folder_path)
@@ -51,10 +51,3 @@ def appear_time_info(folder_path):
     position_df = data_map(folder_path)["hp"]
     position_df[position_df.columns[1]]
     return
-
-# scene_characteristics
-def num_person(folder_path):
-    pass
-
-def opossite(folder_path):
-    pass

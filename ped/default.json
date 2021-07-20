@@ -14,6 +14,7 @@
     },
     
     "analysis":{
+        "time_unit_for_sec": 1000,
         "outlier":{
             "v_mean":{
                 "max":7,

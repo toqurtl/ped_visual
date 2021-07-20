@@ -1,11 +1,28 @@
 from ped import utils
-from pandas import Series
+from ped import ped_cfg as cfg
 import numpy as np
+from pandas import Series
 
 class Person(object):
     def __init__(self, scene, person_idx):
         self.scene = scene        
         self.person_idx = person_idx
+        self._create_pos_info()
+        self._create_exist_range()
+        
+    def _create_pos_info(self):
+        np_h, np_v = self.position_h_data.to_numpy(), self.position_v_data.to_numpy()
+        self.start_pos = np.array([utils.not_nan_data(np_h)[0], utils.not_nan_data(np_v)[0]])
+        self.finish_pos = np.array([utils.not_nan_data(np_h)[-1], utils.not_nan_data(np_v)[-1]])
+    
+    def _create_exist_range(self):
+        time_range = utils.detected_time_range(
+                data=self.scene_data_map["hp"],
+                time_str=self.scene.time_idx,
+                column_str=self.person_idx
+            )
+        self.exist_time_range = time_range["time"]
+        self.exist_idx_range = time_range["idx"]
         
     @property
     def scene_data_map(self):
@@ -48,15 +65,28 @@ class Person(object):
         h_data = self.velocity_h_data
         v_data = self.velocity_v_data         
         r_data, di_data = utils.cart2pol_theta(h_data, v_data)        
-        return di_data   
+        return di_data
+
+    @property
+    def exist_time_interval(self):
+        return (self.exist_time_range[-1] - self.exist_time_range[0]) / cfg.time_unit_for_sec()
+
+    @property
+    def velocity_avg(self):        
+        return np.linalg.norm(self.finish_pos - self.start_pos, ord=2) / self.exist_time_interval   
+    
+    @property
+    def direction_avg(self):   
+        diff = self.finish_pos - self.start_pos
+        _, theta = utils.cart2pol_theta(diff[0], diff[1])
+        return theta
+
+    # interval
+    def velocity_data_interval(self, interval):
+        
+        pass
 
     # statistics
-    def exist_time_range(self):        
-        return utils.detected_time_range(
-                data=self.scene_data_map["hp"],
-                time_str=self.scene.time_idx,
-                column_str=self.person_idx
-            )
 
     def info_accerelation(self):
         return self.acceleration_data.mean(), self.acceleration_data.std()
@@ -67,14 +97,74 @@ class Person(object):
     def info_direction(self):
         return self.direction_data.mean(), self.direction_data.std()
 
+    def info_accerelation_interval(self, interval):
+        return {
+            "mean": utils.to_inverval(self.acceleration_data, interval).mean(),
+            "std": utils.to_inverval(self.acceleration_data, interval).std()
+        }
+
+    def info_velocity_interval(self, interval):
+        return {
+            "mean": utils.to_inverval(self.velocity_data, interval).mean(), 
+            "std": utils.to_inverval(self.velocity_data, interval).std()
+        }
+    
+    def info_direction_interval(self, interval):
+        return {
+            "mean": utils.to_inverval(self.direction_data, interval).mean(), 
+            "std": utils.to_inverval(self.direction_data, interval).std()
+        }
+
     def describe(self):
-        des_dict = {
+        return {
             "a": self.info_accerelation(),
             "v": self.info_velocity(),
-            "d": self.info_direction()
+            "d": self.info_direction(),
+            "v_mean_avg": self.velocity_avg,
+            "d_mean_avg": self.direction_avg,
         }
-        return des_dict
+
+    def describe_interval(self, interval):
+        return {
+            "a": self.info_accerelation_interval(interval),
+            "v": self.info_velocity_interval(interval),
+            "d": self.info_direction_interval(interval),
+            "v_mean_avg": self.velocity_avg,
+            "d_mean_avg": self.direction_avg,
+        }
+
+    def to_dict(self):
+        return {            
+            'person_id': self.scene.scene_id+"_"+self.person_idx,
+            'scene_id': self.scene.scene_id,
+            'group': self.scene.group_name,
+            'num_person': self.scene.num_person,
+            'a_mean': self.acceleration_data.mean(),
+            'a_std':  self.acceleration_data.std(),
+            'v_mean': self.velocity_data.mean(),
+            'v_std': self.velocity_data.std(),
+            'd_mean': self.direction_data.mean(),
+            'd_std': self.direction_data.std(),
+            'v_mean_avg': self.velocity_avg,
+            'd_mean_avg': self.direction_avg,
+        }
     
+    def to_dict_interval(self, interval):
+        return {            
+            'person_id': self.scene.scene_id+"_"+self.person_idx,
+            'scene_id': self.scene.scene_id,
+            'group': self.scene.group_name,
+            'num_person': self.scene.num_person,
+            'a_mean': self.info_accerelation_interval(interval)["mean"],
+            'a_std':  self.info_accerelation_interval(interval)["std"],
+            'v_mean': self.info_velocity_interval(interval)["mean"],
+            'v_std': self.info_velocity_interval(interval)["std"],
+            'd_mean': self.info_direction_interval(interval)["mean"],
+            'd_std': self.info_direction_interval(interval)["std"],
+            'v_mean_avg': self.velocity_avg,
+            'd_mean_avg': self.direction_avg,
+        }
+        
     # behavior
     def position_at_idx(self, idx):
         return self.position()[idx]
@@ -85,10 +175,3 @@ class Person(object):
         np_h = np.expand_dims(np_h, axis=1)
         np_v = np.expand_dims(np_v, axis=1)
         return np.append(np_h, np_v, axis=1)
-        
-
-    def is_hallway(self):
-        pass
-    
-    def is_unit(self):
-        pass

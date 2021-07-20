@@ -1,5 +1,4 @@
 import os
-from ped.read_file import read_scene
 from ped.read_file import check_folder
 
 def available_scene_list(group_folder_path):
@@ -13,9 +12,3 @@ def available_scene_list(group_folder_path):
             if check_2:
                 available_list.append(folder_path)                
     return available_list
-
-def scene_list_with_num_person(group_folder_path):
-    pass
-
-def opossite_scene_list_opposite(group_folder_path):
-    pass

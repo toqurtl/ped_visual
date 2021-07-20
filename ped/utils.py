@@ -20,9 +20,21 @@ def detected_time_range(data: DataFrame, time_str: str, column_str: str):
     data = data[[time_str, column_str]]
     idx_list = []
     time_list = []
-    for idx, row in data.iterrows():
+    for idx, row in data.iterrows():        
         if not np.isnan(row[column_str]):
             idx_list.append(idx)
             time_list.append(row[time_str])
         
-    return {"time": time_list, "idx": idx_list}
+    return {"time": np.array(time_list), "idx": np.array(idx_list)}
+
+def not_nan_data(np_data):
+    return np_data[np.logical_not(np.isnan(np_data))]
+    
+def to_inverval(series: Series, interval):
+    np_data = not_nan_data(series.to_numpy())
+    new_list = []
+    for idx, data in enumerate(np_data):
+        if idx + interval < len(np_data):            
+            new_list.append(np_data[idx:idx+10].mean())
+    return np.array(new_list)
+
