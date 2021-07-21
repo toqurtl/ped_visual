@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-from ped.read_file import read_csv
 
 # person info of scene
 def data_file_path_map(folder_path: str):

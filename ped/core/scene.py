@@ -1,4 +1,4 @@
-from ped.read_file import read_scene, read_csv
+from ped.read_file import read_scene
 from ped.core.person import Person
 import numpy as np
 

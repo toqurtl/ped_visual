@@ -1,3 +1,5 @@
+# folder statistics
+
 from ped.core.scene import Scene
 from ped.analysis import person_analysis
 from pandas import DataFrame
