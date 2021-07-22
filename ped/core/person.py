@@ -83,56 +83,33 @@ class Person(object):
 
     # interval
     def velocity_data_interval(self, interval):
+        return utils.to_interval(self.velocity_data, interval)
         
-        pass
+    def velocity_v_data_interval(self, interval):
+        return utils.to_interval(self.velocity_v_data, interval)
+        
+    def velocity_h_data_interval(self, interval):
+        return utils.to_interval(self.velocity_h_data, interval)
+        
+    def acceleration_data_interval(self, interval):
+        return utils.to_interval(self.acceleration_data, interval)
+        
+    def acceleration_v_data_interval(self, interval):
+        return utils.to_interval(self.acceleration_v_data, interval)
+        
+    def acceleration_h_data_interval(self, interval):
+        return utils.to_interval(self.acceleration_h_data, interval)
+        
+    def position_v_data_interval(self, interval):
+        return utils.to_interval(self.position_v_data, interval)
+        
+    def position_h_data_interval(self, interval):
+        return utils.to_interval(self.position_h_data, interval)
+
+    def direction_data_interval(self, interval):
+        return utils.to_interval(self.direction_data, interval)
 
     # statistics
-
-    def info_accerelation(self):
-        return self.acceleration_data.mean(), self.acceleration_data.std()
-
-    def info_velocity(self):
-        return self.velocity_data.mean(), self.velocity_data.std()
-    
-    def info_direction(self):
-        return self.direction_data.mean(), self.direction_data.std()
-
-    def info_accerelation_interval(self, interval):
-        return {
-            "mean": utils.to_inverval(self.acceleration_data, interval).mean(),
-            "std": utils.to_inverval(self.acceleration_data, interval).std()
-        }
-
-    def info_velocity_interval(self, interval):
-        return {
-            "mean": utils.to_inverval(self.velocity_data, interval).mean(), 
-            "std": utils.to_inverval(self.velocity_data, interval).std()
-        }
-    
-    def info_direction_interval(self, interval):
-        return {
-            "mean": utils.to_inverval(self.direction_data, interval).mean(), 
-            "std": utils.to_inverval(self.direction_data, interval).std()
-        }
-
-    def describe(self):
-        return {
-            "a": self.info_accerelation(),
-            "v": self.info_velocity(),
-            "d": self.info_direction(),
-            "v_mean_avg": self.velocity_avg,
-            "d_mean_avg": self.direction_avg,
-        }
-
-    def describe_interval(self, interval):
-        return {
-            "a": self.info_accerelation_interval(interval),
-            "v": self.info_velocity_interval(interval),
-            "d": self.info_direction_interval(interval),
-            "v_mean_avg": self.velocity_avg,
-            "d_mean_avg": self.direction_avg,
-        }
-
     def to_dict(self):
         return {            
             'person_id': self.scene.scene_id+"_"+self.person_idx,
@@ -155,12 +132,12 @@ class Person(object):
             'scene_id': self.scene.scene_id,
             'group': self.scene.group_name,
             'num_person': self.scene.num_person,
-            'a_mean': self.info_accerelation_interval(interval)["mean"],
-            'a_std':  self.info_accerelation_interval(interval)["std"],
-            'v_mean': self.info_velocity_interval(interval)["mean"],
-            'v_std': self.info_velocity_interval(interval)["std"],
-            'd_mean': self.info_direction_interval(interval)["mean"],
-            'd_std': self.info_direction_interval(interval)["std"],
+            'a_mean': self.acceleration_data_interval(interval).mean(),
+            'a_std':  self.acceleration_data_interval(interval).std(),
+            'v_mean': self.velocity_data_interval(interval).mean(),
+            'v_std': self.velocity_data_interval(interval).std(),
+            'd_mean': self.direction_data_interval(interval).mean(),
+            'd_std': self.direction_data_interval(interval).std(),
             'v_mean_avg': self.velocity_avg,
             'd_mean_avg': self.direction_avg,
         }

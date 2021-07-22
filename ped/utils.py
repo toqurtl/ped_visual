@@ -30,7 +30,7 @@ def detected_time_range(data: DataFrame, time_str: str, column_str: str):
 def not_nan_data(np_data):
     return np_data[np.logical_not(np.isnan(np_data))]
     
-def to_inverval(series: Series, interval):
+def to_interval(series: Series, interval):
     np_data = not_nan_data(series.to_numpy())
     new_list = []
     for idx, data in enumerate(np_data):

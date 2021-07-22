@@ -3,11 +3,11 @@ from ped import ped_cfg as cfg
 
 
 def velocity_in_hallway(person: Person):
-    v_mean, _ = person.info_velocity()
+    v_mean = person.velocity_data.mean()
     return cfg.v_mean_min() < v_mean < cfg.v_mean_max()
 
 def direction_in_hallway(person: Person):
-    d_mean, _ = person.info_direction()
+    d_mean = person.direction_data.mean()
     if d_mean > 0:
         return cfg.d_mean_p_min() < d_mean < cfg.d_mean_p_max()
     else:

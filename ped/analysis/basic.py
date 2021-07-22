@@ -66,8 +66,8 @@ def basic_statistics(analysis_folder_list, group_name="_"):
         s = Scene(s_folder_path, group_name=group_name)
         for person in s.person_dict.values():     
             if person_analysis.is_hallway(person):                
-                v_mean, v_dev = person.info_velocity()
-                d_mean, d_dev = person.info_direction()       
+                v_mean, v_dev = person.velocity_data.mean(), person.velocity_data.std()
+                d_mean, d_dev = person.direction_data.mean(), person.direction_data.std()
                 velocity_mean += v_mean
                 velocity_deviation += v_dev
                 direction_mean += d_mean
