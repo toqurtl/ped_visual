@@ -81,35 +81,88 @@ class Person(object):
         _, theta = utils.cart2pol_theta(diff[0], diff[1])
         return theta
 
-    # interval
-    def velocity_data_interval(self, interval):
-        return utils.to_interval(self.velocity_data, interval)
-        
-    def velocity_v_data_interval(self, interval):
-        return utils.to_interval(self.velocity_v_data, interval)
-        
-    def velocity_h_data_interval(self, interval):
-        return utils.to_interval(self.velocity_h_data, interval)
-        
-    def acceleration_data_interval(self, interval):
-        return utils.to_interval(self.acceleration_data, interval)
-        
-    def acceleration_v_data_interval(self, interval):
-        return utils.to_interval(self.acceleration_v_data, interval)
-        
-    def acceleration_h_data_interval(self, interval):
-        return utils.to_interval(self.acceleration_h_data, interval)
-        
-    def position_v_data_interval(self, interval):
-        return utils.to_interval(self.position_v_data, interval)
-        
-    def position_h_data_interval(self, interval):
-        return utils.to_interval(self.position_h_data, interval)
+    @property
+    def direction(self):
+        return self.direction_avg > 0
 
-    def direction_data_interval(self, interval):
-        return utils.to_interval(self.direction_data, interval)
+    # time
+    def time(self, idx):
+        return self.scene.time(idx)
+
+    def time_interval(self, start_idx, finish_idx):
+        return self.scene.time_interval(start_idx, finish_idx)
+
+    # interval(if interval=1 -> same as property)
+    def velocity_data_interval(self, interval, idx=-1):
+        if idx==-1:
+            return utils.to_interval(self.velocity_data, interval)
+        else:
+            return utils.to_interval(self.velocity_data, interval)[idx]
+        
+    def velocity_v_data_interval(self, interval, idx=-1):
+        if idx==-1:
+            return utils.to_interval(self.velocity_v_data, interval)
+        else:
+            return utils.to_interval(self.velocity_v_data, interval)[idx]
+        
+    def velocity_h_data_interval(self, interval, idx=-1):
+        if idx==-1:
+            return utils.to_interval(self.velocity_h_data, interval)
+        else:
+            return utils.to_interval(self.velocity_h_data, interval)[idx]
+        
+    def acceleration_data_interval(self, interval, idx=-1):
+        if idx==-1:
+            return utils.to_interval(self.acceleration_data, interval)
+        else:
+            return utils.to_interval(self.acceleration_data, interval)[idx]
+        
+    def acceleration_v_data_interval(self, interval, idx=-1):
+        if idx==-1:
+            return utils.to_interval(self.acceleration_v_data, interval)
+        else:
+            return utils.to_interval(self.acceleration_v_data, interval)[idx]
+        
+    def acceleration_h_data_interval(self, interval, idx=-1):
+        if idx==-1:
+            return utils.to_interval(self.acceleration_h_data, interval)
+        else:
+            return utils.to_interval(self.acceleration_h_data, interval)[idx]
+        
+    def position_v_data_interval(self, interval, idx=-1):
+        if idx==-1:
+            return utils.to_interval(self.position_v_data, interval)
+        else:
+            return utils.to_interval(self.position_v_data, interval)[idx]
+        
+    def position_h_data_interval(self, interval, idx=-1):
+        if idx==-1:
+            return utils.to_interval(self.position_h_data, interval)
+        else:
+            return utils.to_interval(self.position_h_data, interval)[idx]
+
+    def direction_data_interval(self, interval, idx=-1):
+        if idx==-1:
+            return utils.to_interval(self.direction_data, interval)
+        else:
+            return utils.to_interval(self.direction_data, interval)[idx]
 
     # statistics
+    def info_at_idx(self, idx, interval=1):
+        return {            
+            'person_id': self.scene.scene_id+"_"+self.person_idx,
+            'scene_id': self.scene.scene_id,
+            'group': self.scene.group_name,
+            'num_person': self.scene.num_person,
+            'a': self.acceleration_data_interval(interval=interval, idx=idx),            
+            'v': self.velocity_data_interval(interval=interval, idx=idx),
+            'hv': self.velocity_h_data_interval(interval=interval, idx=idx),
+            'vv': self.velocity_v_data_interval(interval=interval, idx=idx),
+            'hp': self.position_h_data_interval(interval=interval, idx=idx),
+            'vp': self.position_v_data_interval(interval=interval, idx=idx),            
+            'd': self.direction_data_interval(interval=interval, idx=idx),            
+        }
+
     def to_dict(self):
         return {            
             'person_id': self.scene.scene_id+"_"+self.person_idx,

@@ -35,6 +35,8 @@ def to_interval(series: Series, interval):
     new_list = []
     for idx, data in enumerate(np_data):
         if idx + interval < len(np_data):            
-            new_list.append(np_data[idx:idx+10].mean())
+            new_list.append(np_data[idx:idx+interval].mean())
+        else:
+            new_list.append(np_data[idx:].mean())
     return np.array(new_list)
 

@@ -37,3 +37,7 @@ def d_mean_n_min():
 
 def time_unit_for_sec():
     return cfg["analysis"]["time_unit_for_sec"]
+
+
+def door_position():
+    return cfg["analysis"]["position"]["door"]["h"], cfg["analysis"]["position"]["door"]["v"]
