@@ -29,11 +29,16 @@
                 "min":-110
             }
         },
-        "position":{
-            "door":{
-                "h":-5,
-                "v":9
+        "position":{            
+            "exception":{                
+                "door":{
+                    "h":-5,
+                    "v":9,
+                    "range":1,
+                    "num_check":2
+                }
             }
+            
         }
     }
 

@@ -38,6 +38,8 @@ def d_mean_n_min():
 def time_unit_for_sec():
     return cfg["analysis"]["time_unit_for_sec"]
 
+def exception_dict():
+    return cfg["analysis"]["position"]["exception"]
 
 def door_position():
-    return cfg["analysis"]["position"]["door"]["h"], cfg["analysis"]["position"]["door"]["v"]
+    return cfg["analysis"]["position"]["exception"]["door"]["h"], cfg["analysis"]["position"]["exception"]["door"]["v"]
