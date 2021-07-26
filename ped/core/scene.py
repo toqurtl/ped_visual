@@ -2,6 +2,8 @@ from ped.read_file import read_scene
 from ped.core.person import Person
 from ped import ped_cfg as cfg
 import numpy as np
+from itertools import combinations
+
 
 class Scene(object):
     def __init__(self, folder_path, group_name="_"):        
@@ -63,6 +65,10 @@ class Scene(object):
     @property
     def time_line(self):
         return self.position_h_data[self.time_idx]
+
+    @property
+    def compare_person_list(self):
+        return list(combinations(self.person_dict.values(), 2))
 
     def time(self, idx):
         return self.time_line[idx]
