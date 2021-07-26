@@ -8,10 +8,13 @@ class Person(object):
         self.scene = scene        
         self.person_idx = person_idx
         self._create_pos_info()
-        self._create_exist_range()
+        self._create_exist_range()        
         
     def _create_pos_info(self):
         np_h, np_v = self.position_h_data.to_numpy(), self.position_v_data.to_numpy()
+        np_h = np.expand_dims(np_h, axis=1)
+        np_v = np.expand_dims(np_v, axis=1)
+        self.pos = np.append(np_h, np_v, axis=1)
         self.start_pos = np.array([utils.not_nan_data(np_h)[0], utils.not_nan_data(np_v)[0]])
         self.finish_pos = np.array([utils.not_nan_data(np_h)[-1], utils.not_nan_data(np_v)[-1]])
     
@@ -196,12 +199,16 @@ class Person(object):
         }
         
     # behavior
+    # def _create_position(self):
+    #     np_h = self.position_h_data.to_numpy()
+    #     np_v = self.position_v_data.to_numpy()
+    #     np_h = np.expand_dims(np_h, axis=1)
+    #     np_v = np.expand_dims(np_v, axis=1)
+    #     self.pos = np.append(np_h, np_v, axis=1)
+    #     return          
+
     def position_at_idx(self, idx):
         return self.position()[idx]
 
     def position(self):
-        np_h = self.position_h_data.to_numpy()
-        np_v = self.position_v_data.to_numpy()
-        np_h = np.expand_dims(np_h, axis=1)
-        np_v = np.expand_dims(np_v, axis=1)
-        return np.append(np_h, np_v, axis=1)
+        return self.pos
