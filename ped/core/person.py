@@ -207,8 +207,27 @@ class Person(object):
     #     self.pos = np.append(np_h, np_v, axis=1)
     #     return          
 
+    def is_exist(self, idx):
+        return not np.isnan(self.position_at_idx(idx))
+
     def position_at_idx(self, idx):
-        return self.position()[idx]
+        return self.pos[idx]
 
     def position(self):
         return self.pos
+
+    # if nan -> at least one person doesn't exist
+    def distance_at_idx(self, other, idx):
+        return np.linalg.norm(self.pos[idx] - other.pos[idx], ord=2)
+
+    def distance_with(self, other):
+        print(self.pos-other.pos)
+        exit()
+        return np.linalg.norm(self.pos - other.pos, ord=2)
+
+    def num_person_at_idx(self, idx, dis_min, dis_max):
+        ctn = 0 
+        for key, person in self.scene.person_dict.items():
+            if self.person_idx != key:
+                if person.is_exist(idx):
+                    pass
